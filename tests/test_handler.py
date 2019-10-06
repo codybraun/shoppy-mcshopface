@@ -16,6 +16,10 @@ class TestPurchases:
         sample_handler.purchase({'money':100, 'items':[123]})
         assert len(sample_handler.purchase_logs) == 1
 
+    def test_purchase_change_returned(self, sample_handler):
+        resp = sample_handler.purchase({'money':100, 'items':[123]})
+        assert sample_handler.prices[123] + resp[0].json['change'] == 100
+
     def test_purchase_deducts_from_inv(self, sample_handler):
         assert sample_handler.inventory[123]['quantity'] == 50
         sample_handler.purchase({'money':100, 'items':[123]})
